@@ -1,0 +1,276 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  CREADOR
+  CURADOR
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  password      String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         Bytes?
+  role          Role      @default(CURADOR)
+  idPais        Int?      @default(139)
+  idCiudad      Int?      @default(10)
+  description   String?   @default("")
+  accounts      Account[]
+  nacimiento    Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  musicSets       MusicSet[]
+  pulls           Pull[]
+  pullUsers       PullUsers[]
+  questions       Question[]
+  responses       Response[]
+  shareTokens     ShareToken[]
+  shareTokenUsers ShareTokenUser[]
+  songs           Song[]           @relation("UserSongs")
+  songPlays       SongPlay[]
+  ciudad          Ciudad?          @relation(fields: [idCiudad], references: [id])
+  pais            Pais?            @relation(fields: [idPais], references: [id])
+  genres          UserGenre[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model UserGenre {
+  id     Int    @id @default(autoincrement())
+  name   String
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model MusicSet {
+  id          String       @id @default(uuid())
+  userId      String
+  name        String
+  description String?
+  startsAt    DateTime?
+  endsAt      DateTime?
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokens      ShareToken[]
+  songs       Song[]
+
+  @@index([userId])
+  @@index([startsAt])
+  @@index([endsAt])
+}
+
+model Song {
+  id            String         @id @default(uuid())
+  title         String
+  artistId      String
+  extension     String
+  createdAt     DateTime       @default(now())
+  durationSec   Int?
+  musicSetId    String
+  updatedAt     DateTime       @updatedAt
+  versionLabel  String?
+  lyrics        String?
+  file          Bytes
+  image         Bytes?
+  responses     Response[]
+  tokens        ShareToken[]
+  artist        User           @relation("UserSongs", fields: [artistId], references: [id], onDelete: Cascade)
+  musicSet      MusicSet       @relation(fields: [musicSetId], references: [id], onDelete: Cascade)
+  songPlays     SongPlay[]
+  songQuestions SongQuestion[]
+
+  @@index([musicSetId])
+  @@index([artistId])
+}
+
+model ShareToken {
+  id              String           @id @default(uuid())
+  token           String           @unique
+  ownerId         String
+  musicSetId      String?
+  songId          String?
+  expiresAt       DateTime?
+  active          Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  pullId          Int?
+  responses       Response[]
+  musicSet        MusicSet?        @relation(fields: [musicSetId], references: [id], onDelete: Cascade)
+  owner           User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  pull            Pull?            @relation("PullToShareTokens", fields: [pullId], references: [id], onDelete: Cascade)
+  song            Song?            @relation(fields: [songId], references: [id], onDelete: Cascade)
+  shareTokenUsers ShareTokenUser[]
+
+  @@index([ownerId])
+  @@index([musicSetId])
+  @@index([songId])
+  @@index([pullId])
+  @@index([expiresAt])
+}
+
+model ShareTokenUser {
+  id           Int        @id @default(autoincrement())
+  shareTokenId String
+  userId       String
+  aprovado     Boolean    @default(false)
+  shareToken   ShareToken @relation(fields: [shareTokenId], references: [id], onDelete: Cascade)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Question {
+  id            Int              @id @default(autoincrement())
+  active        Boolean          @default(true)
+  createdAt     DateTime         @default(now())
+  help          String?
+  key           String
+  order         Int?
+  title         String
+  type          QuestionType
+  updatedAt     DateTime         @updatedAt
+  userId        String
+  titleEn       String?          @default("")
+  titleFr       String?          @default("")
+  usuario       User             @relation(fields: [userId], references: [id])
+  options       QuestionOption[]
+  responses     Response[]
+  songQuestions SongQuestion[]
+
+  @@unique([userId, key])
+}
+
+model QuestionOption {
+  id         Int      @id @default(autoincrement())
+  questionId Int
+  value      String
+  label      String
+  order      Int?
+  labelEn    String?  @default("")
+  labelFr    String?  @default("")
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, value])
+  @@index([questionId])
+}
+
+model Response {
+  id           String      @id @default(uuid())
+  songId       String
+  questionId   Int
+  userId       String?
+  shareTokenId String?
+  value        String
+  createdAt    DateTime    @default(now())
+  question     Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  shareToken   ShareToken? @relation(fields: [shareTokenId], references: [id])
+  song         Song        @relation(fields: [songId], references: [id], onDelete: Cascade)
+  user         User?       @relation(fields: [userId], references: [id])
+
+  @@unique([songId, questionId, userId, shareTokenId])
+  @@index([songId])
+  @@index([questionId])
+  @@index([userId])
+  @@index([shareTokenId])
+}
+
+model Pull {
+  id          Int          @id @default(autoincrement())
+  nombre      String
+  createdAt   DateTime     @default(now())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  PullUsers   PullUsers[]
+  ShareTokens ShareToken[] @relation("PullToShareTokens")
+}
+
+model PullUsers {
+  id     Int     @id @default(autoincrement())
+  pullId Int
+  userId String?
+  correo String?
+  pull   Pull    @relation(fields: [pullId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id])
+}
+
+model SongPlay {
+  id           BigInt  @id @default(autoincrement())
+  songId       String
+  userId       String
+  replayCount  Int     @default(0)
+  stoppedAtSec Int?
+  completed    Boolean @default(false)
+  score        Int?
+  song         Song    @relation(fields: [songId], references: [id])
+  user         User    @relation(fields: [userId], references: [id])
+
+  @@unique([userId, songId])
+}
+
+model SongQuestion {
+  id         Int      @id @default(autoincrement())
+  songId     String
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id])
+  song       Song     @relation(fields: [songId], references: [id])
+
+  @@unique([songId, questionId])
+}
+
+model Pais {
+  id       Int      @id @default(autoincrement())
+  nombre   String
+  ciudades Ciudad[]
+  users    User[]
+}
+
+model Ciudad {
+  id     Int    @id @default(autoincrement())
+  idPais Int
+  nombre String
+  pais   Pais   @relation(fields: [idPais], references: [id])
+  users  User[]
+}
+
+enum QuestionType {
+  TEXT
+  SINGLE_CHOICE
+  MULTIPLE_CHOICE
+  SCALE_1_5
+}
