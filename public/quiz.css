@@ -1,0 +1,352 @@
+/* Aplica fondo global */
+body {
+  
+  color: #000; 
+  font-family: 'Poppins', sans-serif;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh,
+}
+.card-title {
+  margin-bottom: var(--bs-card-title-spacer-y);
+  color: black;
+}
+.card-subtitle
+{
+  color: black;
+}
+.quiz-box {
+  background: transparent;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid black;
+  box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+  color:#000;
+  font-family: 'Segoe UI', sans-serif;
+}
+.quiz-box h5,
+.quiz-option,
+.quiz-slider-labels,
+.form-check-label,
+input,
+select,
+textarea {
+  color: #333 !important;
+}
+
+
+.quiz-slider {
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #333;
+}
+
+.quiz-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #6607a8;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+.quiz-title {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  color: #ffccff;
+}
+
+select.form-select,
+input.form-control {
+  background-color: #222;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+select.form-select option {
+  background-color: #1a1a2a;
+}
+
+input.form-check-input {
+  accent-color: black;
+}
+
+/* Estilo para cards visuales */
+.quiz-card {
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #2a2a3b, #1c1c2e);
+  color: white;
+}
+
+.quiz-card:hover {
+  transform: scale(1.05);
+  border-color: black;
+}
+
+.quiz-card.selected {
+  border-color: black;
+  background-color: #2e2e42;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+}
+
+/* Slider con etiquetas */
+.quiz-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 0 5px;
+  color: #6c757d;
+}
+
+/* Colores y ambiente musical */
+/* Ajustes para contenedores generales */
+
+.quiz-section {
+  background: white !important;
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+.quiz-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+
+.quiz-box h5 {
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.quiz-option {
+  display: block;
+  background: transparent;
+  border: 2px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 30px;
+  margin: 10px auto;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  max-width: 300px;
+}
+
+.quiz-option:hover,
+.quiz-option.active {
+  border-color: black;
+  color: black;
+  box-shadow: 0 0 10px #ff00cc;
+}
+
+.quiz-slider {
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #555;
+  border-radius: 4px;
+  outline: none;
+}
+
+.quiz-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #000;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.card,
+.card-body,
+.form-control,
+.form-select {
+  background-color: transparent !important;
+  --bs-card-bg:transparent !important;
+}
+.card-body{
+  color: #000;
+}
+.wizard,
+.wizard .nav-tabs,
+.wizard .nav-tabs .nav-item {
+	position: relative;
+}
+.wizard .nav-tabs:after {
+	content: "";
+	width: 80%;
+	border-bottom: solid 2px #ccc;
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	top: 38%;
+	z-index: -1;
+}
+.wizard .nav-tabs .nav-item .nav-link {
+	width: 70px;
+	height: 70px;
+	margin-bottom: 6%;
+	background: white;
+	border: 2px solid #ccc;
+	color: #ccc;
+	z-index: 10;
+}
+.wizard .nav-tabs .nav-item .nav-link:hover {
+	color: #333;
+	border: 2px solid #333;
+}
+.wizard .nav-tabs .nav-item .nav-link.active {
+	background: #fff;
+	border: 2px solid #6607a8;
+	color: #6607a8;
+}
+.wizard .nav-tabs .nav-item .nav-link:after {
+	content: " ";
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	opacity: 0;
+	margin: 0 auto;
+	bottom: 0px;
+	border: 5px solid transparent;
+	border-bottom-color: #6607a8;
+	transition: 0.1s ease-in-out;
+}
+
+.nav-tabs .nav-item .nav-link.active:after {
+	content: " ";
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	opacity: 1;
+	margin: 0 auto;
+	bottom: 0px;
+	border: 10px solid transparent;
+	border-bottom-color: #6607a8;
+}
+.wizard .nav-tabs .nav-item .nav-link svg {
+	font-size: 25px;
+}
+.star {
+  font-size: 2rem;
+  cursor: pointer;
+  color: #444;
+  transition: transform 0.2s, color 0.2s;
+  user-select: none;
+}
+
+.star.hovered,
+.star.selected {
+  color: gold;
+}
+
+.star.hovered {
+  transform: scale(1.2);
+}
+.form-check-input:checked {
+    background-color: #6607a8;
+    border-color: #6607a8;
+}
+.custom-slider::-webkit-slider-thumb {
+  background-color: #6607a8;
+}
+.custom-slider::-moz-range-thumb {
+  background-color: #6607a8;
+}
+.custom-slider {
+  accent-color: #6607a8;
+}
+.custom-slider {
+  accent-color: #6607a8;
+  margin-right: 40px;
+}
+
+.custom-slider::-webkit-slider-thumb {
+  background-color: #6607a8;
+}
+
+.custom-slider::-moz-range-thumb,
+.custom-slider::-moz-range-thumb:focus {
+  background-color: #6607a8;
+}
+.quiz-option.active {
+  box-shadow: 0 0 10px #6607a8;
+  background-color: rgba(174, 131, 229, 0.2);
+  border: 1px solid #6607a8;
+}
+.ranking {
+  color: #ffc107;
+}
+.ranking-secondary {
+  color: #6c757d;
+}
+.ranking:hover,
+.ranking-secondary:hover {
+  transform: scale(2);
+}
+.ranking:active {
+  transform: scale(2);
+}
+.btn-indigo, .btn-indigo:hover{
+  background-color: #6607a8;
+  color: #fff;
+}
+.quiz-box h5, .quiz-option, .quiz-slider-labels, .form-check-label, input, select, textarea
+{
+    color: #fff !important;
+}
+.neon-border{
+  border: 2px solid #ff00ff !important;
+  background-color: #ff00ff2c !important;
+  color: #ff00ff;
+}
+.neon-border:hover{
+  background-color: #ff00ff !important;
+  color:#6607a8;
+}
+select.form-select, input.form-control {
+    background-color: #fff !important;
+}
+.quiz-box h5, .quiz-option, .quiz-slider-labels, .form-check-label, input, select, textarea {
+    color: #6607a8 !important;
+}
+.css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root.Mui-checked, 
+.css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate{
+    color: #6607a8 !important;
+}
+.css-4vlnh6-MuiSlider-root{
+    color: #6607a8 !important;
+}
+.text-purple{
+   color: #6607a8 !important;
+   font-weight: 500;
+}
+.css-rizt0-MuiTypography-root {
+  font-size: 0.8rem !important;
+  font-weight: normal !important;
+}
+.css-tj8d99-MuiSwitch-track{
+  background-color: #6607a8 !important;
+}
+.css-17jyosd-MuiSwitch-thumb{
+  border-color: #6607a8 !important;
+  border-width: 1px;
+  background-color: #fff !important;
+}
